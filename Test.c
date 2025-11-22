@@ -33,16 +33,16 @@ int main()
 	double avgTime;
 	clock_t startTime, endTime;
 
-	for(i = 0; i< 30; i++){
+	for(i = 0; i< 30	; i++){
 		startTime = clock();
-		asmhello(x1, x2, y1, y2);
+		asmhello(x1, x2, y1, y2, input);
 		endTime = clock();
 		
 		time = (double)(endTime-startTime) / CLOCKS_PER_SEC;
 		totalTime += time;
 	}
 	
-	avgTime = totalTime/30.0;
+	avgTime = totalTime/5.0;
 	printf("Average ASM kernel time for n=%d: %f seconds\n", 30, avgTime);
 	return 0;    
 }
