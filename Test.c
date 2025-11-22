@@ -35,7 +35,7 @@ int main()
 
 	for(i = 0; i< 30; i++){
 		startTime = clock();
-		asmhello(x1, x2, y1, y2);
+		asmhello(x1, x2, y1, y2, input);
 		endTime = clock();
 		
 		time = (double)(endTime-startTime) / CLOCKS_PER_SEC;
