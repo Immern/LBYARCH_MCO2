@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-extern void asmhello();
+extern void asmKernel();
 
 float rand_float() {
     return (float)rand() / (float)RAND_MAX * 5.0f;  
@@ -56,7 +56,7 @@ float kernel_asm_call(float* x1, float* x2, float* y1, float* y2, int input, flo
 	int i;
 	for(i = 0; i< 30; i++){
 		asm_startTime = clock();
-		asmhello(x1, x2, y1, y2, z, input);
+		asmKernel(x1, x2, y1, y2, z, input);
 		asm_endTime = clock();
 		
 		asm_time = (float)(asm_endTime-asm_startTime) / CLOCKS_PER_SEC;

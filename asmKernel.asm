@@ -4,10 +4,10 @@ msg db "z -> %f, %f, %f, %f, %f, %f, %f, %f, %f, %f", 10, 0
 section .text
 bits 64
 default rel
-global asmhello
+global asmKernel
 extern printf
 
-asmhello:
+asmKernel:
     push rbp
     mov rbp, rsp
     
