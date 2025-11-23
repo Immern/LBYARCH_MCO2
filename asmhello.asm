@@ -1,5 +1,5 @@
 section .data
-msg db "z[%d] = %f", 10, 0
+msg db "z -> %f, %f, %f, %f, %f, %f, %f, %f, %f, %f", 10, 0
 
 section .text
 bits 64
@@ -18,24 +18,25 @@ asmhello:
     push r15
     
     ; Allocate
-    sub rsp, 48
+    sub rsp, 64
     
-    mov rax, [rbp+48]    ; Store count 
-    mov [rbp-40], rax    ; Save count to stack slot
-    
+    mov rax, [rbp+48]   
+    mov [rbp-32], rax        ; z pointer
+    mov rax, [rbp+56]
+    mov [rbp-56], rax             ; input pointer
     ; Load array addresses into non volatile registers
+    mov r11, [rbp-32]
     mov r12, rcx             ; x1 pointer
     mov r13, rdx             ; x2 pointer
     mov r14, r8              ; y1 pointer
     mov r15, r9              ; y2 pointer
     
     xor rbx, rbx             ; loop counter 
-
 L1:
     ; Load count from stack
-    mov eax, [rbp-40]
+    mov eax, [rbp-56]
     cmp rbx, rax
-    jge end
+    jge L2
     
     ; Load array elements
     movss xmm2, [r12 + rbx * 4]
@@ -51,20 +52,77 @@ L1:
     addss xmm6, xmm7
     sqrtss xmm6, xmm6
     ; Convert to double
-    cvtss2sd xmm1, xmm6
-    
-    ; Setup printf
-    lea rcx, [msg]           ; Format string
-    mov edx, ebx             ; Index
-    movq r8, xmm1            ; Double value
-    call printf
+    ;cvtss2sd xmm1, xmm6
+    movss [r11 + rbx*4], xmm6      ; store float result
+
+    ;movss xmm8, [r11 + rbx * 4]
+    ;movss xmm8, xmm1
     
     ; increase counter
     inc rbx
     jmp L1
 
+L2:
+    xor rbx, rbx
+    jmp L3
+L3:
+    ; Setup printf
+    lea rcx, [msg]           ; Format string
+    
+    movss xmm0, [r11 + 0]
+    cvtss2sd xmm1, xmm0
+    movq rdx, xmm1            ; Double value
+    
+    movss xmm0, [r11 + 4]
+    cvtss2sd xmm1, xmm0
+    movq r8, xmm1            ; Double value
+    
+    movss xmm0, [r11 + 8]
+    cvtss2sd xmm1, xmm0
+    movq r9, xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 12]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+32], xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 16]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+40], xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 20]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+48], xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 24]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+56], xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 28]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+64], xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 32]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+72], xmm1            ; Double value
+    
+    
+    movss xmm0, [r11 + 36]
+    cvtss2sd xmm1, xmm0
+    movq [rsp+80], xmm1            ; Double value
+    
+    
+    call printf
+    
+   
+
 end:
-    add rsp, 48
+    add rsp, 64
     
     ; pop non volatile registers
     pop r15
