@@ -4,13 +4,13 @@ This project was made following the LBYARCH MCO2 specs on comparing the run time
 # Comparative Execution
 The execution of both kernel versions was run 30 times for each input size to determine the average execution time. For the largest input size, the project used 2^26, as any higher input could not be handled by the machine. For the values, different vector data was used for each input size, wherein it was randomized based on the following seeds: 20, 24, 26. Shown below is a summary of the average run time of the two kernels for the given input sizes. 
 
-| Input Size | C Kernel Run Time(s)       | x86-64 Kernel Run Time(s)  |
+| Input Size | C Kernel Execution Time(s)       | x86-64 Kernel Execution Time(s)  |
 | ---------- | -------------------------- | -------------------------- |
 | 2^20       | 0.027900                   | 0.003567                   |
 | 2^24       | 0.298700                   | 0.046100                   |
 | 2^26       | 2.369367                   | 0.281100                   |
 
-For all average run times, the x86-64 Kernel ran faster compared to the C Kernel by approximately 7.82, 6.48, and 8.43 times, respectively. Given this overview, there seems to be no huge relationship on how the input size correlates with how much faster the x86-64 runs compared to the C kernel is, however, it must be considered that this has only been tested across the three input sizes and may need further investigation with smaller input sizes. Overall, the project was able to succeed in investigating the benefits of using an ASM kernel to get better performance. 
+For all average execution times, the x86-64 Kernel ran faster compared to the C Kernel by approximately 7.82, 6.48, and 8.43 times, respectively. Given this overview, there seems to be no huge relationship on how the input size correlates with how much faster the x86-64 runs compared to the C kernel; however, it must be considered that this has only been tested across the three input sizes and may need further investigation with smaller input sizes. With regards to why the x86-64 version of the kernel ran faster on average compared to the C version of the kernel, it is likely attributed to the use of scalar SIMD instructions such as  `movss`, `subss`, `mulss`, `addss`, and `sqrtss`, as well as the `xmm` registers. In addition to this, the optimal use of registers can be handled or manipulated by the programmer, whereas they can specify which data will be stored in the non-volatile and volatile registers, allowing for efficient manipulation of data and operands. Overall, the project was able to succeed in investigating the benefits of using an ASM kernel to get better performance. 
 
 # Program Output for C Version
 <img width="1534" height="719" alt="image" src="https://github.com/user-attachments/assets/014bd849-7152-4b4b-8350-f749a3f74140" />
